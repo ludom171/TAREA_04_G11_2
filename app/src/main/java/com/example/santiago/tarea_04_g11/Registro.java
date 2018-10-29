@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -64,6 +65,8 @@ public class Registro extends AppCompatActivity implements View.OnClickListener 
         aceptar=(Button)findViewById(R.id.aceptar);
         //inicializar spinner
         dia=(Spinner)findViewById(R.id.dia);
+        dia.setOnItemClickListener((AdapterView.OnItemClickListener) this);
+
         mes=(Spinner)findViewById(R.id.mes);
         anio=(Spinner)findViewById(R.id.anio);
 
@@ -82,6 +85,7 @@ public class Registro extends AppCompatActivity implements View.OnClickListener 
 
         //Image View
         imagen= (ImageView) findViewById(R.id.foto);
+
 
 
         //llenar spiiner con valores generados
@@ -126,6 +130,8 @@ public class Registro extends AppCompatActivity implements View.OnClickListener 
         //guardar datos txt
         try {
             OutputStreamWriter archivo = new OutputStreamWriter(openFileOutput("meminterna.txt", Activity.MODE_PRIVATE));
+            //ValidarFecha();
+
             archivo.write(txtcompleto + usuario.getText().toString() + ";" + contraseña.getText().toString() + ";" +nombre.getText().toString() + ";" +apellido.getText().toString() + ";" +correo.getText().toString() + ";" +celular.getText().toString()+";");
             archivo.flush();
             archivo.close();
@@ -137,6 +143,19 @@ public class Registro extends AppCompatActivity implements View.OnClickListener 
         finish();
         startActivity(newform);
     }
+
+    private void ValidarFecha(Integer dia, Integer mes, Integer anio) {
+        dia=dia.intValue();
+        mes=mes.intValue();
+        anio=anio.intValue();
+
+        if(anio>=1&&dia<=31){
+            Toast.makeText(this, "es un dia valido",Toast.LENGTH_SHORT).show();
+        }
+
+
+    }
+
     //submenu salir
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -174,4 +193,7 @@ public class Registro extends AppCompatActivity implements View.OnClickListener 
             imagen.setImageURI(path);
         }
     }
+
+
+
 }
