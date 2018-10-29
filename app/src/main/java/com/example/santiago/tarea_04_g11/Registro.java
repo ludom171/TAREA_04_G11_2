@@ -3,7 +3,10 @@ package com.example.santiago.tarea_04_g11;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -13,6 +16,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,6 +43,9 @@ public class Registro extends AppCompatActivity implements View.OnClickListener 
     //declarar spinner
     Spinner dia,mes,anio;
     int numero;
+
+    //Cargar Imagen
+    ImageView imagen;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +79,9 @@ public class Registro extends AppCompatActivity implements View.OnClickListener 
         for (int x=0;x<years.length;x++){
             years[x]=String.valueOf(numero+x);
         }
+
+        //Image View
+        imagen= (ImageView) findViewById(R.id.foto);
 
 
         //llenar spiiner con valores generados
@@ -116,7 +126,7 @@ public class Registro extends AppCompatActivity implements View.OnClickListener 
         //guardar datos txt
         try {
             OutputStreamWriter archivo = new OutputStreamWriter(openFileOutput("meminterna.txt", Activity.MODE_PRIVATE));
-            archivo.write(txtcompleto + usuario.getText().toString() + ";" + contraseña.getText().toString() + ";" +nombre.getText().toString() + ";" +apellido.getText().toString() + ";" +correo.getText().toString() + ";" +celular.getText().toString());
+            archivo.write(txtcompleto + usuario.getText().toString() + ";" + contraseña.getText().toString() + ";" +nombre.getText().toString() + ";" +apellido.getText().toString() + ";" +correo.getText().toString() + ";" +celular.getText().toString()+";");
             archivo.flush();
             archivo.close();
         }catch (IOException e){
@@ -148,5 +158,20 @@ public class Registro extends AppCompatActivity implements View.OnClickListener 
                 return super.onOptionsItemSelected(item);
         }
 
+    }
+
+    public void onclick(View view) {
+        Intent intent= new Intent(Intent.ACTION_PICK,MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        intent.setType("image/");
+        startActivityForResult(intent.createChooser(intent,"Seleccione la Aplicacion"),10);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode==RESULT_OK){
+            Uri path= data.getData();
+            imagen.setImageURI(path);
+        }
     }
 }

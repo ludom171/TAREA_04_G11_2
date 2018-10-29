@@ -14,10 +14,13 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+
+    String lineatxt,txtcompleto;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +35,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ingresar=(Button)findViewById(R.id.ingresar);
         registro=(Button)findViewById(R.id.registrar);
 
+
+
+
         //Verificacion de archivo
         try
         {
@@ -43,6 +49,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             String texto = fin.readLine();
             //Toast.makeText(getApplicationContext(),"Fichero Existente",Toast.LENGTH_SHORT).show();
             fin.close();
+            try {
+                InputStreamReader archivo = new InputStreamReader(openFileInput("meminterna.txt"));
+                BufferedReader br = new BufferedReader(archivo);
+                lineatxt = br.readLine();
+                txtcompleto= "";
+
+
+                br.close();
+                archivo.close();
+                //contraseña.setText(txtcompleto);
+
+            }catch (IOException e){
+
+            }
         }
         catch (Exception ex)
         {
@@ -63,13 +83,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
 
+
         ingresar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                Intent newform = new Intent(MainActivity.this,Lista.class);
-                finish();
-                startActivity(newform);
+                try {
+                    InputStreamReader archivo = new InputStreamReader(openFileInput("meminterna.txt"));
+                    BufferedReader br = new BufferedReader(archivo);
+                    lineatxt = br.readLine();
+
+
+                    if (lineatxt !=null){
+                        Intent newform = new Intent(MainActivity.this,Lista.class);
+                        finish();
+                        startActivity(newform);
+                    }else{
+                        Toast.makeText(getApplicationContext(),"No existe Registros Disponibles",Toast.LENGTH_SHORT).show();
+                    }
+                    br.close();
+                    archivo.close();
+
+                }catch (IOException e){
+
+                }
+
+
 
             }
         });
