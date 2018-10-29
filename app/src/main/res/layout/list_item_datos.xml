@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#3c6b99"
+    android:textSize="24sp"
+    android:padding="10sp"
+    android:textColor="#b67d7d"
+    android:id="@+id/listadatos"
+
+    xmlns:android="http://schemas.android.com/apk/res/android" />
