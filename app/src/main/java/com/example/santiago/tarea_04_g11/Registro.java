@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.lang.reflect.Array;
 import java.util.Calendar;
 
 public class Registro extends AppCompatActivity implements View.OnClickListener {
@@ -131,6 +132,8 @@ public class Registro extends AppCompatActivity implements View.OnClickListener 
         try {
             OutputStreamWriter archivo = new OutputStreamWriter(openFileOutput("meminterna.txt", Activity.MODE_PRIVATE));
             //ValidarFecha();
+
+
 
             archivo.write(txtcompleto + usuario.getText().toString() + ";" + contraseña.getText().toString() + ";" +nombre.getText().toString() + ";" +apellido.getText().toString() + ";" +correo.getText().toString() + ";" +celular.getText().toString()+";");
             archivo.flush();
